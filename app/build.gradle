@@ -18,8 +18,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "BASE_URL", "\""+ getBaseUrl() + "\"")
-        buildConfigField("String", "BASE_URL", "\""+ getApiKey() + "\"")
+        buildConfigField "String", "BASE_URL", "\"" + propOrDef("base_url", "") + "\""
+        buildConfigField "String", "API_KEY", "\"" + propOrDef("api_key", "") + "\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -109,10 +109,6 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 }
 
-def getBaseUrl() {
-    return project.findProject("base_url")
-}
-
-def getApiKey() {
-    return project.findProject("api_key")
+String propOrDef(String propertyName, String defaultValue) {
+    return hasProperty(propertyName) ? getProperties()[propertyName] : defaultValue
 }
