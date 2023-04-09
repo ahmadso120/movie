@@ -1,17 +1,17 @@
 package com.sopian.movieaej
 
 import android.app.Application
+import com.sopian.movieaej.appinitializers.AppInitializers
 import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
 class MovieAejApp : Application() {
 
+    @Inject lateinit var initializers: AppInitializers
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+        initializers.init()
     }
 }
