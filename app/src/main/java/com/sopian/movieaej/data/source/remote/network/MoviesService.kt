@@ -5,7 +5,7 @@ import com.sopian.movieaej.data.source.remote.response.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MovieService {
+interface MoviesService {
 
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(
