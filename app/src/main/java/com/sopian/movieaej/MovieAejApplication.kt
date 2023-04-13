@@ -6,7 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class MovieAejApp : Application() {
+class MovieAejApplication : Application() {
 
     @Inject lateinit var initializers: AppInitializers
     override fun onCreate() {
