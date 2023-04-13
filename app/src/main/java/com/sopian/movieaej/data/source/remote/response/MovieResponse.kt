@@ -1,22 +1,18 @@
 package com.sopian.movieaej.data.source.remote.response
 
+import com.sopian.movieaej.domain.model.Movie
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class MovieResponse(
-    override val id: Int,
-    @Json(name = "poster_path") override val posterPath: String?,
-    override val adult: Boolean?,
-    override val overview: String,
-    @Json(name = "release_date") override val releaseDate: String?,
-    @Json(name = "genre_ids") val genreIds: List<Int>,
-    @Json(name = "original_title") val originalTitle: String,
-    @Json(name = "original_language") val originalLanguage: String,
-    override val title: String,
-    @Json(name = "backdrop_path") override val backdropPath: String?,
-    val popularity: Float?,
-    @Json(name = "vote_count") override val voteCount: Int,
-    val video: Boolean,
-    @Json(name = "vote_average") override val voteAverage: Double
-) : TmdbItem
+    val id: Int,
+    @Json(name = "poster_path") val posterPath: String?,
+    val title: String
+)
+
+fun MovieResponse.asExternalModel() = Movie(
+    id = id,
+    title = title,
+    posterUrl = "https://image.tmdb.org/t/p/original$posterPath"
+)
