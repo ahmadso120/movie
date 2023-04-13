@@ -6,11 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MoviesService {
-
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(
-        @Query("page") page: Int,
-        @Query("language") isoCode: String,
-        @Query("region") region: String
-    ): BaseResponse<MovieResponse>
+    suspend fun getUpcomingMovies(): BaseResponse<List<MovieResponse>>
 }
