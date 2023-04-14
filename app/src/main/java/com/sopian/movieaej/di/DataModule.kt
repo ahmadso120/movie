@@ -3,6 +3,8 @@ package com.sopian.movieaej.di
 import com.sopian.movieaej.data.MovieRepositoryImpl
 import com.sopian.movieaej.data.source.remote.MovieRemoteDataSource
 import com.sopian.movieaej.data.source.remote.MovieRemoteDataSourceImpl
+import com.sopian.movieaej.data.util.ConnectivityManagerNetworkMonitor
+import com.sopian.movieaej.data.util.NetworkMonitor
 import com.sopian.movieaej.domain.MovieRepository
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,9 @@ abstract class DataModule {
     abstract fun provideMovieRepository(
         movieRepositoryImpl: MovieRepositoryImpl
     ): MovieRepository
+
+    @Binds
+    abstract fun bindsNetworkMonitor(
+        networkMonitor: ConnectivityManagerNetworkMonitor,
+    ): NetworkMonitor
 }
