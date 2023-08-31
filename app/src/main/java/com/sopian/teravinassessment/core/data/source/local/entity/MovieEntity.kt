@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.sopian.teravinassessment.core.domain.model.Movie
 
 @Entity(tableName = "movies")
 data class MovieEntity(
@@ -13,3 +14,14 @@ data class MovieEntity(
     @ColumnInfo("original_title") val originalTitle: String?,
     @ColumnInfo("release_date") val releaseDate: String?,
 )
+
+fun MovieEntity.mapToDomainModel(): Movie =
+    Movie(
+        id = id,
+        originalTitle = originalTitle,
+        releaseDate = releaseDate
+    )
+
+fun List<MovieEntity>.mapToDomainModel(): List<Movie> = map {
+    it.mapToDomainModel()
+}
