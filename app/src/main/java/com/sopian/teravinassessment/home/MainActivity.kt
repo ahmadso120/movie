@@ -1,5 +1,6 @@
 package com.sopian.teravinassessment.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sopian.teravinassessment.core.domain.usecase.MovieUseCase
+import com.sopian.teravinassessment.core.framework.StartSyncServiceReceiver
+import com.sopian.teravinassessment.core.utils.AlarmHandler
 import com.sopian.teravinassessment.core.utils.NetworkMonitor
 import com.sopian.teravinassessment.core.utils.NotificationHandler
 import com.sopian.teravinassessment.core.utils.SharedPrefHelper
@@ -23,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var sharedPrefHelper: SharedPrefHelper
+
+    @Inject lateinit var alarmHandler: AlarmHandler
 
     @Inject lateinit var notificationHandler: NotificationHandler
 
@@ -45,6 +50,14 @@ class MainActivity : AppCompatActivity() {
         observeData()
 
         setupAdapter()
+
+        initiateSyncSchedule()
+    }
+
+    private fun initiateSyncSchedule() {
+        val intent = Intent(this, StartSyncServiceReceiver::class.java)
+        val interval = 60 * 1000 // 1 minute
+        alarmHandler.setAlarm(interval, intent, false)
     }
 
     private fun observeData() {
