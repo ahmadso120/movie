@@ -2,8 +2,6 @@ package com.sopian.teravinassessment.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sopian.teravinassessment.core.domain.usecase.MovieUseCase
 import com.sopian.teravinassessment.core.utils.NetworkMonitor
+import com.sopian.teravinassessment.core.utils.NotificationHandler
 import com.sopian.teravinassessment.core.utils.SharedPrefHelper
 import com.sopian.teravinassessment.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,8 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var sharedPrefHelper: SharedPrefHelper
 
-    @Inject
-    lateinit var useCase: MovieUseCase
+    @Inject lateinit var notificationHandler: NotificationHandler
+
+    @Inject lateinit var useCase: MovieUseCase
 
     @Inject lateinit var networkMonitor: NetworkMonitor
 
@@ -48,6 +48,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
+        notificationHandler.getNotification().observe(this) {
+            showNotification(it)
+        }
+
         viewModel.movies.observe(this) {
             if (!it.isNullOrEmpty()) {
                 movieAdapter.submitList(it)
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun initializeMovieData(){
         lifecycleScope.launch {
             useCase.updateMovies()
+            notificationHandler.notifyDataUpdate("Data telah diperbarui!")
         }
     }
 

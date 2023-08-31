@@ -7,6 +7,8 @@ import com.sopian.teravinassessment.core.domain.usecase.MovieInteractor
 import com.sopian.teravinassessment.core.domain.usecase.MovieUseCase
 import com.sopian.teravinassessment.core.utils.ConnectivityManagerNetworkMonitor
 import com.sopian.teravinassessment.core.utils.NetworkMonitor
+import com.sopian.teravinassessment.core.utils.NotificationHandler
+import com.sopian.teravinassessment.core.utils.NotificationManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +28,10 @@ object AppModule {
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("preferences_name", Context.MODE_PRIVATE)
     }
+
+    @Singleton
+    @Provides
+    fun provideNotificationManger(): NotificationHandler = NotificationManager()
 
     @Provides
     @Singleton
