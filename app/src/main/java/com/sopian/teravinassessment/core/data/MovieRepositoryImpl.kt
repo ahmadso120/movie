@@ -19,7 +19,8 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
     override suspend fun updateMovies() {
         try {
-            val moviesFromApi = remoteDataSource.fetchMovies().map { it.mapToEntity() }
+            val moviesFromApi = remoteDataSource.fetchMovies()
+                .take(10).map { it.mapToEntity() }
             localDataSource.clearAllMovies()
             localDataSource.saveMovies(moviesFromApi)
         } catch (exception: ApiException) {
